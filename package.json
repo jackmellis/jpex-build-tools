@@ -1,0 +1,25 @@
+{
+  "name": "jpex-build-tools",
+  "private": true,
+  "version": "2.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackmellis/jpex-build-tools.git"
+  },
+  "author": "Jack Ellis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackmellis/jpex-build-tools/issues"
+  },
+  "homepage": "https://github.com/jackmellis/jpex-build-tools#readme",
+  "dependencies": {
+    "jpex": "2.0.0-alpha.0",
+    "uglify-js": "^2.7.5",
+    "yargs": "^6.6.0"
+  }
+}
