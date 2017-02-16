@@ -1,4 +1,4 @@
-var Jpex = require('./jpex');
+var Jpex = require('jpex');
 var App = Jpex.extend(function($fs, path){
   var base = path.resolve('.') + path.sep;
   $fs.readFile(base + 'coverage/lcov.info', 'utf8')
