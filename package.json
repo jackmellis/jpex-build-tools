@@ -19,6 +19,7 @@
   "homepage": "https://github.com/jackmellis/jpex-build-tools#readme",
   "dependencies": {
     "jpex": "2.0.0-alpha.0",
+    "mkdirp": "^0.5.1",
     "uglify-js": "^2.7.5",
     "yargs": "^6.6.0"
   }
