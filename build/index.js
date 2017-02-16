@@ -1,10 +1,10 @@
 const Jpex = require('jpex').extend();
 
-Jpex.register.factory('args', function (yargs) {
+Jpex.Register.Factory('args', function (yargs) {
   return yargs.argv;
 });
 
-Jpex.register.factory('name', function (args, entry, path) {
+Jpex.Register.Factory('name', function (args, entry, path) {
   if (args.name){
     return args.name;
   }else{
@@ -13,20 +13,20 @@ Jpex.register.factory('name', function (args, entry, path) {
     return dot > -1 ? basename.substr(0, dot) : basename;
   }
 });
-Jpex.register.factory('entry', function (args, path) {
+Jpex.Register.Factory('entry', function (args, path) {
   if (!args.entry){
     throw new Error('No entry point defined');
   }
   return require.resolve(path.resolve(args.entry));
 });
-Jpex.register.factory('output', function (args, path) {
+Jpex.Register.Factory('output', function (args, path) {
   if (!args.output){
     throw new Error('No output file defined');
   }
   return path.resolve(args.output);
 });
 
-Jpex.register.factory('minify', function (args, $resolve) {
+Jpex.Register.Factory('minify', function (args, $resolve) {
   return function (content) {
     if (!args.minify){
       return content;
@@ -43,20 +43,20 @@ Jpex.register.factory('minify', function (args, $resolve) {
   };
 });
 
-Jpex.register.factory('moduleWrapper', function (fs) {
+Jpex.Register.Factory('moduleWrapper', function (fs) {
   const wrapper = fs.readFileSync(__dirname + '/moduleWrapper.js', 'utf8');
   return function (index, content) {
     return wrapper.replace('<target>', index).replace('<content>', content);
   };
 });
-Jpex.register.factory('scriptWrapper', function (fs) {
+Jpex.Register.Factory('scriptWrapper', function (fs) {
   const wrapper = fs.readFileSync(__dirname + '/scriptWrapper.js', 'utf8');
   return function (name, scripts) {
     return wrapper.replace('<scripts>', scripts.join('\n')).replace('<name>', name);
   };
 });
 
-Jpex.register.factory('parseFile', function (fs, path, moduleWrapper) {
+Jpex.Register.Factory('parseFile', function (fs, path, moduleWrapper) {
   return function parseFile(target, fileMap, contentArr) {
     const requireMatch = /require\(['"]([a-zA-Z0-9\-_\.\/\\]+)?['"]\)/g;
     let content = fs.readFileSync(target, 'utf8');
@@ -95,12 +95,12 @@ Jpex.register.factory('parseFile', function (fs, path, moduleWrapper) {
     contentArr.push(content);
   };
 });
-Jpex.register.factory('wrapScript', function (name, scriptWrapper) {
+Jpex.Register.Factory('wrapScript', function (name, scriptWrapper) {
   return function (scripts) {
     return scriptWrapper(name, scripts);
   };
 });
-Jpex.register.factory('writeScript', function (output, fs, mkdirp, path) {
+Jpex.Register.Factory('writeScript', function (output, fs, mkdirp, path) {
   return function (script) {
     mkdirp.sync(path.dirname(output));
     fs.writeFileSync(output, script, 'utf8');
