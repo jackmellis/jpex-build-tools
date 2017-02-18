@@ -21,9 +21,7 @@
     "jpex": "^1.4.1",
     "mkdirp": "^0.5.1",
     "uglify-js": "^2.7.5",
-    "yargs": "^6.6.0"
-  },
-  "devDependencies": {
+    "yargs": "^6.6.0",
     "npm-utils": "^1.11.0"
   }
 }
