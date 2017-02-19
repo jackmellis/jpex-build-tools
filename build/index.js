@@ -58,7 +58,7 @@ Jpex.Register.Factory('scriptWrapper', function (fs) {
 
 Jpex.Register.Factory('parseFile', function (fs, path, moduleWrapper) {
   return function parseFile(target, fileMap, contentArr) {
-    const requireMatch = /require\(['"]([a-zA-Z0-9\-_\.\/\\]+)?['"]\)/g;
+    const requireMatch = /require\(['"]([a-zA-Z0-9\-_\.\/\\$\]+)?['"]\)/g;
     let content = fs.readFileSync(target, 'utf8');
 
     let match;
