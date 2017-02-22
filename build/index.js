@@ -104,7 +104,7 @@ Jpex.Register.Factory('wrapScript', function (name, scriptWrapper) {
 });
 Jpex.Register.Factory('writeScript', function (output, fs, mkdirp, path, $log) {
   return function (script) {
-    $log('Writing to ' + output);
+    $log('Writing to ' + output + '(' + script.length + 'b)');
     mkdirp.sync(path.dirname(output));
     fs.writeFileSync(output, script, 'utf8');
   };
