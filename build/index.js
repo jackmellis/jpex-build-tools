@@ -26,11 +26,12 @@ Jpex.Register.Factory('output', function (args, path) {
   return path.resolve(args.output);
 });
 
-Jpex.Register.Factory('minify', function (args, $resolve) {
+Jpex.Register.Factory('minify', function (args, $resolve, $log) {
   return function (content) {
     if (!args.minify){
       return content;
     }
+    $log('Minifying...');
     const uglify = $resolve('uglify-js');
     const opt = {
       fromString : true,
@@ -56,8 +57,9 @@ Jpex.Register.Factory('scriptWrapper', function (fs) {
   };
 });
 
-Jpex.Register.Factory('parseFile', function (fs, path, moduleWrapper) {
+Jpex.Register.Factory('parseFile', function (fs, path, moduleWrapper, $log) {
   return function parseFile(target, fileMap, contentArr) {
+    $log('Parsing file ' + target);
     const requireMatch = /require\(['"]([a-zA-Z0-9\-_\.\/\\\$]+)?['"]\)/g;
     let content = fs.readFileSync(target, 'utf8');
 
@@ -100,20 +102,25 @@ Jpex.Register.Factory('wrapScript', function (name, scriptWrapper) {
     return scriptWrapper(name, scripts);
   };
 });
-Jpex.Register.Factory('writeScript', function (output, fs, mkdirp, path) {
+Jpex.Register.Factory('writeScript', function (output, fs, mkdirp, path, $log) {
   return function (script) {
+    $log('Writing to ' + output);
     mkdirp.sync(path.dirname(output));
     fs.writeFileSync(output, script, 'utf8');
   };
 });
 
-const Main = Jpex.extend(function (entry, parseFile, wrapScript, writeScript, minify) {
+const Main = Jpex.extend(function (entry, parseFile, wrapScript, writeScript, minify, $log) {
+  $log('Jpex Build Tool');
+
   const fileMap = {
     $$nextIndex : 1
   };
   fileMap[entry] = 0;
   let contentArr = [];
   parseFile(entry, fileMap, contentArr);
+
+  $log(contentArr.length + ' files parsed');
 
   const script = minify(wrapScript(contentArr));
 
