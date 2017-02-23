@@ -53,7 +53,7 @@ Jpex.Register.Factory('moduleWrapper', function (fs) {
 Jpex.Register.Factory('scriptWrapper', function (fs) {
   const wrapper = fs.readFileSync(__dirname + '/scriptWrapper.js', 'utf8');
   return function (name, scripts) {
-    return wrapper.replace('<scripts>', scripts.join('\n')).replace('<name>', name);
+    return wrapper.replace('<scripts>', () => scripts.join('\n')).replace('<name>', name);
   };
 });
 
