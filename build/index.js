@@ -47,7 +47,7 @@ Jpex.Register.Factory('minify', function (args, $resolve, $log) {
 Jpex.Register.Factory('moduleWrapper', function (fs) {
   const wrapper = fs.readFileSync(__dirname + '/moduleWrapper.js', 'utf8');
   return function (index, content) {
-    return wrapper.replace('<target>', index).replace('<content>', content);
+    return wrapper.replace('<target>', index).replace('<content>', () => content);
   };
 });
 Jpex.Register.Factory('scriptWrapper', function (fs) {
