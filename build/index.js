@@ -44,10 +44,11 @@ Jpex.Register.Factory('minify', function (args, $resolve, $log) {
   };
 });
 
-Jpex.Register.Factory('moduleWrapper', function (fs) {
+Jpex.Register.Factory('moduleWrapper', function (fs, path) {
   const wrapper = fs.readFileSync(__dirname + '/moduleWrapper.js', 'utf8');
+  const cwd = path.resolve('.');
   return function (index, filename, content) {
-    return wrapper.replace('<filename>', () => filename).replace('<index>', index).replace('<content>', () => content);
+    return wrapper.replace('<filename>', () => filename.replace(cwd, '')).replace('<index>', index).replace('<content>', () => content);
   };
 });
 Jpex.Register.Factory('scriptWrapper', function (fs) {
