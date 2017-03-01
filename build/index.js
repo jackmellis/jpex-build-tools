@@ -46,8 +46,8 @@ Jpex.Register.Factory('minify', function (args, $resolve, $log) {
 
 Jpex.Register.Factory('moduleWrapper', function (fs) {
   const wrapper = fs.readFileSync(__dirname + '/moduleWrapper.js', 'utf8');
-  return function (index, content) {
-    return wrapper.replace('<target>', index).replace('<content>', () => content);
+  return function (index, filename, content) {
+    return wrapper.replace('<filename>', () => filename).replace('<index>', index).replace('<content>', () => content);
   };
 });
 Jpex.Register.Factory('scriptWrapper', function (fs) {
@@ -59,7 +59,6 @@ Jpex.Register.Factory('scriptWrapper', function (fs) {
 
 Jpex.Register.Factory('parseFile', function (fs, path, moduleWrapper, $log) {
   return function parseFile(target, fileMap, contentArr) {
-    $log('Parsing file ' + target);
     const requireMatch = /require\(['"]([a-zA-Z0-9\-_\.\/\\\$]+)?['"]\)/g;
     let content = fs.readFileSync(target, 'utf8');
 
@@ -92,7 +91,7 @@ Jpex.Register.Factory('parseFile', function (fs, path, moduleWrapper, $log) {
       requireMatch.lastIndex = requireMatch.lastIndex - fullMatch.length + newRequire.length;
     }
 
-    content = moduleWrapper(fileMap[target], content);
+    content = moduleWrapper(fileMap[target], target, content);
 
     contentArr.push(content);
   };
